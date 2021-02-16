@@ -36,3 +36,31 @@ function Location(locationName, country, food, notes) {
 Location.prototype.fullName = function() {
   return this.locationName + ", " + this.country;
 }
+
+//ui logic
+// create new favoritePlaces object. This is a global variable.
+
+let favoritePlaces = new FavoritePlaces();
+
+function displayLocationDetails(locationToDisplay) {
+  let locationsList = $("ul#locations");
+  let htmlForLocation = "";
+  Object.keys(locationToDisplay.locations).forEach(function(key) {
+    const location = locationToDisplay.findLocation(key);
+    htmlForLocation += "<li id=" + location.id + ">" + location.locationName
+  });
+  locationsList.html(htmlForLocation);
+}
+
+$(document).ready(function() {
+  $("form#new-location").submit(function(event) {
+    event.preventDefault();
+    const inputtedLocationName = $("input#new-location").val();
+    const inputtedCountry = $("input#new-country").val();
+    const inputtedFood = $("input#new-food").val();
+    const inputtedNotes = $("input#new-note").val();
+    let newLocation = new Location(inputtedLocationName, inputtedCountry, inputtedFood, inputtedNotes);
+    favoritePlaces.addLocation(newLocation);
+    displayLocationDetails(favoritePlaces);
+  });
+});
