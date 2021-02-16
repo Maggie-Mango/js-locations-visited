@@ -1,6 +1,26 @@
-//mock "database" with global variable
+//mock "database" with global variable constructor
 function FavoritePlaces() {
   this.locations = {};
+  this.currentId = 0;
+}
+
+//define another prototype method to increment this.currentId
+FavoritePlaces.prototype.assignId = function() {
+  this.currentId += 1;
+  return this.currentId;
+}
+
+//takes a Location object as an argument
+FavoritePlaces.prototype.addLocation = function(location) {
+  location.id = this.assignId();
+  this.locations[location.id] = location;
+}
+
+FavoritePlaces.prototype.findLocation = function(id) {
+  if (this.locations[id] != undefined) {
+    return this.locations[id];
+  }
+  return false;
 }
 
 
