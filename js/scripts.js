@@ -52,13 +52,34 @@ function displayLocationDetails(locationToDisplay) {
   locationsList.html(htmlForLocation);
 }
 
+function attachLocationListeners() {
+  $("ul#locations").on("click", "li", function() {
+    showLocation(this.id)
+  })
+};
+
+function showLocation(locationId) {
+  const location = favoritePlaces.findLocation(locationId);
+  $("#show-location").show();
+  $(".location-name").html(location.locationName);
+  $(".country").html(location.country);
+  $(".food").html(location.food);
+  $(".notes").html(location.notes);
+}
+
 $(document).ready(function() {
+  attachLocationListeners();
   $("form#new-location").submit(function(event) {
     event.preventDefault();
     const inputtedLocationName = $("input#new-location").val();
     const inputtedCountry = $("input#new-country").val();
     const inputtedFood = $("input#new-food").val();
     const inputtedNotes = $("input#new-note").val();
+    //reset form
+    $("input#new-location").val("");
+    $("input#new-country").val("");
+    $("input#new-food").val("");
+    $("input#new-note").val("");
     let newLocation = new Location(inputtedLocationName, inputtedCountry, inputtedFood, inputtedNotes);
     favoritePlaces.addLocation(newLocation);
     displayLocationDetails(favoritePlaces);
